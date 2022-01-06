@@ -4,6 +4,8 @@
   import { user } from "$lib/stores";
 
   let email = "";
+  let isNewRegistration = false;
+
   const signUp = async () => {
     let { user: userDetails, error } = await supabase.auth.signUp({
       email: email,
@@ -23,12 +25,25 @@
   };
 </script>
 
-<label for=""
-  >Email: <input
-    bind:value={email}
-    type="email"
-    placeholder="youremail@email.com"
-  /></label
->
-<button on:click={signUp}> SignUp </button>
-<button on:click={logIn}> Login </button>
+{#if $user.email}
+  <p>You're already logged in.</p>
+{:else}
+  <label for=""
+    >Email: <input
+      bind:value={email}
+      type="email"
+      placeholder="youremail@email.com"
+    /></label
+  >
+  {#if isNewRegistration}
+    <button on:click={signUp}> SignUp </button>
+    <p class="switch" on:click={() => (isNewRegistration = false)}>
+      Already have an account?
+    </p>
+  {:else}
+    <button on:click={logIn}> Login </button>
+    <p class="switch" on:click={() => (isNewRegistration = true)}>
+      Create a new account
+    </p>
+  {/if}
+{/if}
