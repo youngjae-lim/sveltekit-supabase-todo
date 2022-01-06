@@ -2,6 +2,7 @@
   import supabase from "$lib/db";
   import Todo from "$lib/Todo.svelte";
   import { onMount } from "svelte";
+  import { user } from "$lib/stores";
 
   let todos = [];
   let newTask = "";
@@ -61,6 +62,8 @@
     }
   };
 </script>
+
+<h4>Welcome {$user?.email ? $user.email : ""}!</h4>
 
 <div class="add-todo">
   <input type="text" bind:value={newTask} />
